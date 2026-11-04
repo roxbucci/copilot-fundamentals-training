@@ -45,3 +45,8 @@ Severity measures impact; Priority (P0–P3) sets handling order. Review tickets
 2. **15–30s:** Confirm severity and whether a workaround exists; note any data loss.
 3. **30–45s:** Set the mapped priority; use P0 for an active widespread outage or ongoing severe data loss.
 4. **45–60s:** Record the impact, severity, priority, and next action on the ticket.
+
+### Triage examples
+- **Low:** Tooltip overlaps a label; dismissing it reveals the text. **Priority: P3.**
+- **Medium:** CSV export fails, but users can export the same data as XLSX. **Priority: P2.**
+- **High:** One customer cannot submit orders, with no workaround. **Priority: P1.**
