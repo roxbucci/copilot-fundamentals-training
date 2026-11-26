@@ -42,8 +42,8 @@ code .
 ```
 
 ### 2 . Explore the Skeleton
-Open **`triage.py`**. Every function body is just `pass` and is preceded by a short **Copilot prompt** (triple‑quoted).  
-Example:
+Open **`triage.py`**. The functions are implemented; the original **Copilot prompts** remain at the bottom for reference.
+The original skeleton used placeholders such as:
 
 ```python
 def read_lines(file_path: Path) -> Iterable[str]:
@@ -75,6 +75,28 @@ Rank | Status | Path               | Hits
 ```
 
 Feel free to omit `--status` to see **all** codes, or change `--minutes` and `--top`.
+
+To also export the displayed results to CSV with the existing sample data:
+
+```bash
+python triage.py --file sample_access.log.gz --minutes 1000000 --status 499,321 --top 10 --output results.csv
+```
+
+`--output` writes UTF-8 CSV with columns `Rank,Status,Path,Hits`, using the same ordering and `--top` limit as the terminal table. Existing output files are overwritten; the input path cannot be used as output. With no matches, the CSV contains only its header and the command still exits with code `1`. Without `--output`, no CSV is created.
+
+The time window uses the current UTC time and excludes future entries. Old sample logs may therefore produce no matches. `--minutes` and `--top` must be positive integers.
+
+Exit codes: `0` for matches, `1` for no matches, and `2` for invalid arguments, unreadable files, or CSV write errors.
+
+Run the automated checks with `python -B -m unittest -v test_triage`.
+
+To test only the existing `sample_access.log.gz` data, run:
+
+```bash
+python -B -m unittest -v test_triage.TriageTests.test_existing_sample_log
+```
+
+This test fixes the clock at the sample's latest timestamp (`2025-07-15 17:51:16 UTC`) without changing the log. It checks the CLI pipeline and all 18 status/path counts for `499` and `321` in the last 15 minutes (38 matching entries), including table ordering.
 
 ### 5 . Experiment
 - **Change prompts** to ask for a progress bar or CSV export—then re‑run Copilot.  
